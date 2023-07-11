@@ -1,0 +1,22 @@
+S -> CODE
+CODE -> VDECL CODE' | FDECL CODE' | CDECL CODE' | ^
+CODE' -> VDECL CODE' | FDECL CODE' | CDECL CODE' | ^
+VDECL -> vtype id semi | vtype ASSIGN semi
+ASSIGN -> id assign RHS
+RHS -> EXPR | literal | character | boolstr
+EXPR -> TERM EXPR'
+EXPR' -> addsub TERM EXPR' | multdiv FACTOR EXPR' | ^
+TERM -> FACTOR TERM'
+TERM' -> multdiv FACTOR TERM' | ^
+FACTOR -> lparen EXPR rparen | id | num | boolstr
+FDECL -> vtype id lparen ARG rparen lbrace BLOCK RETURN rbrace | vtype id lparen ARG rparen
+ARG -> vtype id MOREARGS | ^
+MOREARGS -> comma vtype id MOREARGS | ^
+BLOCK -> STMT BLOCK | ^
+STMT -> VDECL | ASSIGN semi | if lparen COND rparen lbrace BLOCK rbrace ELSE | while lparen COND rparen lbrace BLOCK rbrace
+COND -> EXPR comp EXPR
+ELSE -> else lbrace BLOCK rbrace | ^
+RETURN -> return RHS semi | ^
+CDECL -> class id lbrace ODECL rbrace
+ODECL -> VDECL ODECL' | FDECL ODECL' | ^
+ODECL' -> VDECL ODECL' | FDECL ODECL' | ^
